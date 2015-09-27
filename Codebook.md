@@ -1,0 +1,252 @@
+---
+title: "codebook"
+---
+
+This is the codeBook file for my project. I explain each step in details and also explain the variables.
+
+Step 1:
+
+In the first step, we are asked to merge training and test data.
+There are 3 types of data, X, y (labels) and subject
+For all of those, I first read the training data, then followed by test data and merge them in that order.
+My script (function) expects the working directory to be set to where the folder "UCI HAR DataSet"" exists.
+
+
+  train_data # holds the training X data
+  test_data # holds the test X data
+  merged_X # holds the merged training and test data - training followed by test
+  
+  train_Y # holds the training y data
+  test_Y # holds the test y data
+  merged_Y # holds the merged training and test y - training followed by test
+  
+  subject_train # holds the subject information from training set
+  subject_test # holds the subject information from test set
+  merged_subject # holds the merged training and test subject data - training followed by test
+
+
+Step 2:
+
+In the second step, we are asked to filter out the columns that are related to mean or standard deviation
+I found that the required variable names either have "mean" or "std" or "meanFrequency" in them.
+I first read the feature list table and use the names to name the columns of the merged_X variable (which holds the training data)
+Then I use grep() to find the columns that contain mean or std
+
+  features # loads the feature text input file
+  featurenames # holds a vector of all the column (variable) names
+  
+  merged_X # is updated with the featurenames as columns and then columns meeting mean or std in name are picked
+
+
+Step 3:
+
+In the third step, we are required to change the Outcomes (Y) to have descriptive label names
+First, I read the activity_labels.txt file for the correct activity labels
+Then I merge the merged_ Y and activity_labels variables and pick the description column
+Note: because merge() doesnot guarantee the row order, I use the following trick. 
+I create an id column before merging which is an ordered list of 1:nrow(merged_Y)
+And post merging, I order the output using this column to get back the original order.
+
+  activity_ labels # reads the activity_labels.txt with column names "num" and "description"
+  merged_ Y_labeled # holds the merged data
+  labels # holds the decription column of the merged data which is the vector required as outcome of step 3
+
+
+Step 4:
+
+In step 4, we are required to change the column names for X to something more descriptive and meaningful
+I use the colnames() to set the column names. I used a regular expression match in a loop but
+converting the existing column name to something more readable programmatically was not yielding 
+very readable data. Because of that, I used a hard coded list of column names hand-crafted from the input data
+
+Here is the conversion of variable names:
+
+Before change                                            After Change
+
+
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+
+
+tBodyAcc-mean()-X     body_ Accelerometer_ Mean_ X_axis
+
+tBodyAcc-mean()-Y	    body_ Accelerometer_ Mean_ Y_axis
+
+tBodyAcc-mean()-Z	    body_ Accelerometer_ Mean_ Z_axis
+
+tBodyAcc-std()-X	    body_ Accelerometer_ Standard_ Deviation_ X_axis
+
+tBodyAcc-std()-Y	    body_ Accelerometer_ Standard_ Deviation_ Y_axis
+
+tBodyAcc-std()-Z	    body_ Accelerometer_ Standard_ Deviation_ Z_axis
+
+tGravityAcc-mean()-X	gravity_ Accelerometer_ Mean_ X_axis
+
+tGravityAcc-mean()-Y	gravity_ Accelerometer_ Mean_ Y_axis
+
+tGravityAcc-mean()-Z	gravity_ Accelerometer_ Mean_ Z_axis
+
+tGravityAcc-std()-X	  gravity_ Accelerometer_ Standard_ Deviation_ X_axis
+
+tGravityAcc-std()-Y	  gravity_ Accelerometer_ Standard_ Deviation_ Y_axis
+
+tGravityAcc-std()-Z	  gravity_ Accelerometer_ Standard_ Deviation_ Z_axis
+
+tBodyAccJerk-mean()-X	body_ Accelerometer_ Jerk_ Mean_ X_axis
+
+tBodyAccJerk-mean()-Y	body_ Accelerometer_ Jerk_ Mean_ Y_axis
+
+tBodyAccJerk-mean()-Z	body_ Accelerometer_ Jerk_ Mean_ Z_axis
+
+tBodyAccJerk-std()-X	body_ Accelerometer_ Jerk_ Standard_ Deviation_ X_axis
+
+tBodyAccJerk-std()-Y	body_ Accelerometer_ Jerk_ Standard_ Deviation_ Y_axis
+
+tBodyAccJerk-std()-Z	body_ Accelerometer_ Jerk_ Standard_ Deviation_ Z_axis
+
+tBodyGyro-mean()-X	  body_ Gyro_ Mean_ X_axis
+
+tBodyGyro-mean()-Y	  body_ Gyro_ Mean_ Y_axis
+
+tBodyGyro-mean()-Z	  body_ Gyro_ Mean_ Z_axis
+
+tBodyGyro-std()-X	    body_ Gyro_ Standard_ Deviation_X
+
+tBodyGyro-std()-Y	    body_ Gyro_ Standard_ Deviation_Y
+
+tBodyGyro-std()-Z	    body_ Gyro_ Standard_ Deviation_Z
+
+tBodyGyroJerk-mean()-X	body_ Gyro_ Jerk_ Mean_ X_axis
+
+tBodyGyroJerk-mean()-Y	body_ Gyro_ Jerk_ Mean_ Y_axis
+
+tBodyGyroJerk-mean()-Z	body_ Gyro_ Jerk_ Mean_ Z_axis
+
+tBodyGyroJerk-std()-X	body_ Gyro_ Jerk_ Standard_ Deviation_ X_axis
+
+tBodyGyroJerk-std()-Y	body_ Gyro_ Jerk_ Standard_ Deviation_ Y_axis
+
+tBodyGyroJerk-std()-Z	body_ Gyro_ Jerk_ Standard_ Deviation_ Z_axis
+
+tBodyAccMag-mean()	  body_ Accelerometer_ Magnitude_Mean
+
+tBodyAccMag-std()	    body_ Accelerometer_ Magnitude_ Standard_Deviation
+
+tGravityAccMag-mean()	body_ Gravity_ Accelerometer_ Magnitude_Mean
+
+tGravityAccMag-std()	body_ Gravity_ Accelerometer_ Standard_Deviation
+
+tBodyAccJerkMag-mean()	body_ Accelerometer_ Jerk_ Magnitude_Mean
+
+tBodyAccJerkMag-std()	body_ Accelerometer_ Jerk_ Magnitude_ Standard_Deviation
+
+tBodyGyroMag-mean()	  body_ Gyro _ Magnitude_Mean
+
+tBodyGyroMag-std()	  body_ Gyro_ Magnitude_ Standard_Deviation
+
+tBodyGyroJerkMag-mean()	body_ Gyro_ Jerk_ Magnitude_Mean
+
+tBodyGyroJerkMag-std()	body_ Gyro_ Jerk_ Magnitude_ Standard_Deviation
+
+fBodyAcc-mean()-X	    body_ Accelerometer_ Mean_ X_axis
+
+fBodyAcc-mean()-Y	    body_ Accelerometer_ Mean_ Y_axis
+
+fBodyAcc-mean()-Z	    body_ Accelerometer_ Mean_ Z_axis
+
+fBodyAcc-std()-X	    body_ Accelerometer_ Standard_ Deviation_ X_axis
+
+fBodyAcc-std()-Y	    body_ Accelerometer_ Standard_ Deviation_ Y_axis
+
+fBodyAcc-std()-Z	    body_ Accelerometer_ Standard_ Deviation_ Z_axis
+
+fBodyAcc-meanFreq()-X	body_ Accelerometer_ MeanFrequency_ X_axis
+
+fBodyAcc-meanFreq()-Y	body_ Accelerometer_ MeanFrequency_ Y_axis
+
+fBodyAcc-meanFreq()-Z	body_ Accelerometer_ MeanFrequency_ Z_axis
+
+fBodyAccJerk-mean()-X	body_ Accelerometer_ Jerk_ Mean_ X_axis
+
+fBodyAccJerk-mean()-Y	body_ Accelerometer_ Jerk_ Mean_ Y_axis
+
+fBodyAccJerk-mean()-Z	body_ Accelerometer_ Jerk_ Mean_ Z_axis
+
+fBodyAccJerk-std()-X	body_ Accelerometer_ Jerk_ Standard_ Deviation_ X_axis
+
+fBodyAccJerk-std()-Y	body_ Accelerometer_ Jerk_ Standard_ Deviation_ Y_axis
+
+fBodyAccJerk-std()-Z	body_ Accelerometer_ Jerk_ Standard_ Deviation_ Z_axis
+
+fBodyAccJerk-meanFreq()-X	body_ Accelerometer_ Jerk_ MeanFrequency_ X_axis
+
+fBodyAccJerk-meanFreq()-Y	body_ Accelerometer_ Jerk_ MeanFrequency_ Y_axis
+
+fBodyAccJerk-meanFreq()-Z	body_ Accelerometer_ Jerk_ MeanFrequency_ Z_axis
+
+fBodyGyro-mean()-X	  body_ Gyro_ Mean_ X_axis
+
+fBodyGyro-mean()-Y	  body_ Gyro_ Mean_ Y_axis
+
+fBodyGyro-mean()-Z	  body_ Gyro_ Mean_ Z_axis
+
+fBodyGyro-std()-X	    body_ Gyro_ Standard_ Deviation_ X_axis
+
+fBodyGyro-std()-Y	    body_ Gyro_ Standard_ Deviation_ Y_axis
+
+fBodyGyro-std()-Z	    body_ Gyro_ Standard_ Deviation_ z_axis
+
+fBodyGyro-meanFreq()-X	body_ Gyro_ MeanFrequency_ X_axis
+
+fBodyGyro-meanFreq()-Y	body_ Gyro_ MeanFrequency_ Y_axis
+
+fBodyGyro-meanFreq()-Z	body_ Gyro_ MeanFrequency_ Z_axis
+
+fBodyAccMag-mean()	  body_ Accelerometer_ Mangitude_Mean
+
+fBodyAccMag-std()	    body_ Acceration_ Magnitude_ Standard_Deviation
+
+fBodyAccMag-meanFreq()	body_ Accelerometer_ Magntude_MeanFrequency
+
+fBodyBodyAccJerkMag-mean()	body_ body_ Accelerometer_ Jerk_ Magntitude_Mean
+
+fBodyBodyAccJerkMag-std()	body_ body_ Accelerometer_ Jerk_ Magntitude_ Standard_Deviation
+
+fBodyBodyAccJerkMag-meanFreq()	body_ body_ Accelerometer_ Jerk_ Magntitude_MeanFrequency
+
+fBodyBodyGyroMag-mean()	body_ body_ Gyro_ Magnitude_Mean
+
+fBodyBodyGyroMag-std()	body_ body_ Gyro_ Magnitude_ Standard_Deviation
+
+fBodyBodyGyroMag-meanFreq()	body_ body_ Gyro_ Magnitude_MeanFrequency
+
+fBodyBodyGyroJerkMag-mean()	body_ body_ Gyro_ Jerk_ Magnitude_Mean
+
+fBodyBodyGyroJerkMag-std()	body_ body_ Gyro_ Jerk_ Magnitude_ Standard_Devation
+
+fBodyBodyGyroJerkMag-meanFreq()	body_ body_ Gyro_ Jerk_ Magnitude_MeanFrequency
+
+
+
+
+Step 5: 
+
+
+In step 5, we are required to summarize the data by taking mean per subject per activity
+There are 30 subjects and each of them have data for 6 activities
+Before we get to this step, I perform some preparation steps
+I merge the merged_X, merged _Y _labeled and merged _subject variables so I got all data together
+Before I proceed further, I keep the description and id column out as means on text description
+does not work.
+Now I run a nested loop - for i in all subjects (1:30) and then for j in all activities (1:6)
+For each combination, I extract the data, take mean and store that in a merged final data
+Finally i use write.Table to put in text file
+
+
+  
+  all_data # holds the merged data
+  merged_data # holds the final merged data
+  one_set # holds filtered data for a subject / activity combination
+  one_ set_avg # compute the average for each combination
+  
+
+The final outcome is stoed in step5_out.txt file
